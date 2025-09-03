@@ -13,7 +13,7 @@ function addition(a, b) {
     // Conversion en nombres
     const nombre1 = parseFloat(a);
     const nombre2 = parseFloat(b);
-    
+
     // Vérification que les paramètres sont des nombres valides
     if (isNaN(nombre1) || isNaN(nombre2)) {
         throw new Error('Les paramètres doivent être des nombres valides');
