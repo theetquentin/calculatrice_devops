@@ -1,0 +1,11 @@
+version: '3.9'
+
+services:
+  app:
+    build: .
+    container_name: calculatrice-app
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app/calculatrice-jenkins
+      - /app/calculatrice-jenkins/node_modules
