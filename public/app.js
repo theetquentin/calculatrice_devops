@@ -68,21 +68,19 @@ function parserExpression(expression) {
         throw new Error('Veuillez entrer une expression');
     }
     
-    // Rechercher le pattern: nombre + nombre
-    const match = expression.match(/^([+-]?\d*\.?\d+)\s*\+\s*([+-]?\d*\.?\d+)$/);
-    
-    if (!match) {
-        throw new Error('Format invalide. Utilisez: nombre + nombre');
+    // Rechercher des nombres positifs 
+    if (!/^(\d*\.?\d+)(\s*\+\s*(\d*\.?\d+))*$/.test(expression)) {
+        throw new Error('Format invalide. Utilisez uniquement des additions');
     }
     
-    const nombre1 = parseFloat(match[1]);
-    const nombre2 = parseFloat(match[2]);
-    
-    if (isNaN(nombre1) || isNaN(nombre2)) {
+     // Extraire tous les nombres
+    const nombres = [...expression.matchAll(/\d*\.?\d+/g)].map(m => parseFloat(m[0]));
+
+    if (nombres.some(isNaN)) {
         throw new Error('Les valeurs doivent être des nombres valides');
     }
     
-    return { nombre1, nombre2 };
+    return { nombres };
 }
 
 // Fonction pour calculer l'addition
@@ -91,7 +89,7 @@ async function calculer() {
     
     try {
         // Parser l'expression
-        const { nombre1, nombre2 } = parserExpression(expression);
+        const { nombres } = parserExpression(expression);
         
         // Appel à l'API
         const response = await fetch('/api/addition', {
@@ -99,10 +97,7 @@ async function calculer() {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({
-                nombre1: nombre1,
-                nombre2: nombre2
-            })
+            body: JSON.stringify({ nombres })
         });
         
         const data = await response.json();

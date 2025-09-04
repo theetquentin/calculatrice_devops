@@ -16,16 +16,16 @@ app.get('/', (req, res) => {
 
 // fonction pour gérer les additions (peut-être appelé dans le server.test comme ça)
 const handleAddition = (req, res) => {
-    const { nombre1, nombre2 } = req.body;
-    
-    if (nombre1 === undefined || nombre2 === undefined) {
+    const { nombres } = req.body;
+
+    if (!Array.isArray(nombres) || nombres.length < 2) {
         return res.status(400).json({ 
-            erreur: 'Veuillez fournir deux nombres' 
+            erreur: "Veuillez fournir un tableau d'entier de taille 2 ou plus" 
         });
     }
-    
+
     try {
-        const resultat = calculatrice.addition(nombre1, nombre2);
+        const resultat = calculatrice.addition(nombres)
         res.status(200).json({ resultat });
     } catch (error) {
         res.status(400).json({ 

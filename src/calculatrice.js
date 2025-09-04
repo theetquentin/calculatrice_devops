@@ -4,23 +4,21 @@
 
 /**
  * Additionne deux nombres
- * @param {number} a - Premier nombre
- * @param {number} b - Deuxième nombre
- * @returns {number} La somme des deux nombres
+ * @param {number[]} nombres - Nombres
+ * @returns {number} La somme des nombres
  * @throws {Error} Si les paramètres ne sont pas des nombres
  */
-function addition(a, b) {
+function addition(nombres) {
     // Conversion en nombres
-    const nombre1 = parseFloat(a);
-    const nombre2 = parseFloat(b);
+    const mapNumbers = nombres.map(n => parseFloat(n));
 
     // Vérification que les paramètres sont des nombres valides
-    if (isNaN(nombre1) || isNaN(nombre2)) {
+    if (mapNumbers.some(isNaN)) {
         throw new Error('Les paramètres doivent être des nombres valides');
     }
     
     // Calcul et retour du résultat
-    return nombre1 + nombre2;
+    return mapNumbers.reduce((acc, n) => acc + n, 0)
 }
 
 module.exports = {
