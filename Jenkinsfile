@@ -2,31 +2,16 @@ pipeline {
     agent any
 
     stages {
-        stage('Install & Test') {
+        stage('Tests') {
             steps {
-                echo 'Installation des dépendances et lancement des tests...'
-                // Installer les dépendances
-                sh 'npm ci'
-                // Lancer les tests
-                sh 'npm test'
+                sh 'docker compose run --rm test'
             }
         }
 
-        stage('Build & Deploy') {
+        stage('Deploy') {
             steps {
-                echo 'Build et relance des containers Docker...'
-                // Rebuild et relance les containers avec Docker Compose
-                sh 'docker-compose up -d --build'
+                sh 'docker compose up -d app'
             }
-        }
-    }
-
-    post {
-        success {
-            echo 'Déploiement terminé avec succès !'
-        }
-        failure {
-            echo 'Les tests ont échoué, le déploiement a été annulé.'
         }
     }
 }

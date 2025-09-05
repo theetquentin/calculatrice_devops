@@ -9,3 +9,11 @@ services:
     volumes:
       - .:/app/calculatrice-jenkins
       - /app/calculatrice-jenkins/node_modules
+
+  test:
+    build: .
+    container_name: calculatrice-test
+    command: ["npm", "test"]
+    volumes:
+      - .:/app/calculatrice-jenkins
+      - /app/calculatrice-jenkins/node_modules
